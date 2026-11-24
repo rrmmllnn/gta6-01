@@ -1,1 +1,6 @@
-[{"name":"1-chase.jpg","query":"?shot=chase&seed=7"},{"name":"2-street.jpg","query":"?shot=street&seed=7"},{"name":"3-mission.jpg","query":"?shot=mission&seed=7"},{"name":"4-beach.jpg","query":"?shot=beach&seed=7"}]
+[
+  { "name": "1-chase.jpg", "description": "A 3-star police chase up the downtown avenue — the player in a sports car, three Solmar PD cars closing in, wanted stars and minimap on the HUD.", "query": "?shot=chase" },
+  { "name": "2-street.jpg", "description": "On foot at a downtown crossroads — traffic on the avenue, pedestrians on the sidewalks, the city stretching out in every direction.", "query": "?shot=street" },
+  { "name": "3-mission.jpg", "description": "Rosa's dockside job in progress — the player trading fire with the dock crew at the containers, the mission objective and gold marker on the HUD.", "query": "?shot=mission" },
+  { "name": "4-beach.jpg", "description": "A sunset cruise down the beach road in a sports car — the ocean, the palms and the low sun over Solmar Bay.", "query": "?shot=beach" }
+]
