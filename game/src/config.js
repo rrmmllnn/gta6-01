@@ -1,77 +1,71 @@
-// Solmar Bay: every tuning number and colour in one place. The camera shows a
-// 1280x720 logical view of a 2560x1920 open city; nothing below depends on the
-// browser window, so a screenshot and a live game render the same world.
-
-export const VIEW = { width: 1280, height: 720 };
-
-/** The simulation's fixed step, in seconds: 60 updates a second. */
-export const STEP = 1 / 60;
-
-/** The city: avenues run north-south, streets east-west, 96 px of asphalt each. */
-export const WORLD = { width: 2560, height: 1920 };
-export const ROAD = 96;
-export const AVENUES = [160, 480, 800, 1120, 1440, 1760, 2080, 2400];
-export const STREETS = [160, 480, 800, 1120, 1440, 1760];
-
-export const PLAYER = {
-  radius: 12,
-  walk: 175,
-  run: 265,
-  health: 100,
-  pistolDamage: 34,
-  pistolRange: 430,
-  pistolRate: 0.22,
-  magazine: 12,
-  reloadTime: 1.1,
+// Tuning constants and the look of Solmar Bay. Nothing here reads the network
+// or touches the DOM; it is plain data the other modules import.
+export const CONFIG = {
+  seed: 20261124,
+  canvas: { width: 1280, height: 720 },
+  world: { width: 3200, height: 2400 },
+  // The road grid: avenues run north-south, streets run east-west.
+  avenues: [400, 800, 1200, 1600, 2000, 2400, 2800],
+  streets: [300, 600, 900, 1200, 1500, 1800, 2100],
+  roadHalf: 34,
+  // District rectangles, in world coordinates.
+  districts: {
+    beach: { x0: 0, y0: 0, x1: 400, y1: 2400 },
+    docks: { x0: 2400, y0: 1500, x1: 3200, y1: 2400 },
+    park: { x0: 1000, y0: 900, x1: 1600, y1: 1500 },
+    downtown: { x0: 800, y0: 300, x1: 2000, y1: 900 },
+  },
+  player: {
+    radius: 13,
+    walkSpeed: 170,
+    runSpeed: 265,
+    health: 100,
+    maxAmmo: 120,
+    startCash: 250,
+  },
+  cars: {
+    sedan: { maxSpeed: 380, accel: 330, color: '#5b7fa6', length: 46, width: 22 },
+    taxi: { maxSpeed: 360, accel: 320, color: '#e8b93c', length: 46, width: 22 },
+    sport: { maxSpeed: 540, accel: 470, color: '#c0392b', length: 48, width: 22 },
+    truck: { maxSpeed: 300, accel: 240, color: '#7d8a96', length: 62, width: 26 },
+    van: { maxSpeed: 330, accel: 260, color: '#3f6d8e', length: 56, width: 24 },
+    police: { maxSpeed: 470, accel: 430, color: '#1c2733', length: 48, width: 22 },
+  },
+  wanted: {
+    maxStars: 5,
+    decayQuietSeconds: 22,
+    decayPerStarSeconds: 11,
+    crimeCooldownSeconds: 3,
+  },
+  tokensTotal: 10,
+  saveKey: 'solmar-bay-save-v1',
+  palette: {
+    grass: '#7fae5a',
+    parkGrass: '#69a24e',
+    sand: '#e8d39a',
+    ocean: '#2f7f9e',
+    oceanDeep: '#1f5f7d',
+    sidewalk: '#b9b3a4',
+    asphalt: '#3c3f45',
+    asphaltLine: '#e8d44d',
+    downtownRoof: ['#5d6d7e', '#707b8a', '#4a6572', '#85929e'],
+    suburbRoof: ['#b5673f', '#a9805a', '#8a6d4b', '#c08a5e'],
+    buildingEdge: '#2e3438',
+    tree: '#3f7d3a',
+    palm: '#4d8a3f',
+    container: ['#c0392b', '#2874a6', '#b7950b', '#117864', '#7d3c98'],
+  },
+  keys: {
+    up: ['KeyW', 'ArrowUp'],
+    down: ['KeyS', 'ArrowDown'],
+    left: ['KeyA', 'ArrowLeft'],
+    right: ['KeyD', 'ArrowRight'],
+    enterCar: 'KeyE',
+    run: 'ShiftLeft',
+    brake: 'Space',
+    reload: 'KeyR',
+    pause: 'KeyP',
+    mute: 'KeyM',
+    confirm: 'Enter',
+  },
 };
-
-/** Car models: length, width, top speed, acceleration, handling, colour set. */
-export const CAR_MODELS = {
-  sedan: { length: 46, width: 22, top: 330, accel: 210, grip: 2.6, colors: ['#c94f4f', '#4f7ec9', '#c9b44f', '#7a7f8a'] },
-  sport: { length: 44, width: 21, top: 430, accel: 300, grip: 3.4, colors: ['#e8b13c', '#d94f7a', '#3fd2c0'] },
-  taxi: { length: 46, width: 22, top: 340, accel: 220, grip: 2.7, colors: ['#f2c230'] },
-  truck: { length: 62, width: 26, top: 250, accel: 150, grip: 2.0, colors: ['#8a7a5a', '#5a7a8a'] },
-  police: { length: 48, width: 23, top: 470, accel: 330, grip: 3.6, colors: ['#20242e'] },
-  pickup: { length: 50, width: 23, top: 310, accel: 200, grip: 2.5, colors: ['#5a8a4f', '#a05a2a'] },
-};
-
-export const TRAFFIC_COUNT = 26;
-export const PED_COUNT = 34;
-export const MAX_WANTED = 5;
-
-/** Seconds without a crime before one star fades, while no police is close. */
-export const WANTED_DECAY_SECONDS = 25;
-/** A cop on foot needs to stay this close this long to bust the player. */
-export const BUST_DISTANCE = 30;
-export const BUST_SECONDS = 1.2;
-
-export const MISSION_REWARDS = [400, 650, 900, 1200, 2000, 3500];
-
-export const PALETTE = {
-  backdrop: '#10141c',
-  grass: '#79a75c',
-  grassDark: '#6b9a50',
-  sand: '#e6cf9a',
-  water: '#2e7ba6',
-  waterDeep: '#256a92',
-  asphalt: '#3b404b',
-  asphaltDark: '#343943',
-  lane: '#e8d44f',
-  sidewalk: '#b9b3a4',
-  park: '#5d9150',
-  building: ['#d98a7a', '#7aa8d9', '#e8c87a', '#a58ad9', '#7ac9a8', '#d97aa8', '#c9c9c9', '#e09a5a'],
-  roof: ['#8a5a4a', '#4a5a6a', '#6a6a5a', '#5a4a6a'],
-  text: '#f2ede2',
-  muted: '#b9b3a4',
-  gold: '#f2c230',
-  red: '#e5534b',
-  blue: '#4f9de0',
-  panel: 'rgba(16, 20, 28, 0.88)',
-  panelLine: '#3a4152',
-};
-
-export const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
-
-/** Where the save lives between visits (this browser only). */
-export const SAVE_KEY = 'solmar-bay.save.v1';
-export const BEST_KEY = 'solmar-bay.best.v1';
